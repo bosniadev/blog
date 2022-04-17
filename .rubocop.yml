@@ -1,0 +1,20 @@
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Layout/LineLength:
+  Exclude:
+    - 'bin/bundle'
+    - config/initializers/devise.rb
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - bin/bundle
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - bin/bundle

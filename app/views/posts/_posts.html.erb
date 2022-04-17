@@ -1,0 +1,41 @@
+<script>
+  function filterPosts(id) {
+    window.location.href = window.location.origin + '/posts?user_id=' + id;
+
+  }
+</script>
+<p style="color: green"><%= notice %></p>
+
+<h1>Posts</h1>
+<h2>Filter Posts by Users</h2>
+<%= select_tag 'user_id', options_from_collection_for_select(@users, 'id', 'email', params[:user_id]), include_blank: true, onchange: 'filterPosts(this.options[this.selectedIndex].value)',  class: 'form-select w-25' %>
+
+<div id="posts">
+  <% @posts.each do |post| %>
+    <% next unless post.id %>
+    <% if action_name == 'edit' && @post.id == post.id %>
+      <%= render "form", post: @post %>
+    <% else %>
+      <p>
+        <%= post.title %>
+      </p>
+      <p>
+        <%= post.description %>
+      </p>
+    <% end %>
+    <div class='mt-3'>
+      <%= link_to 'Show post', post_path(post), class:  'btn btn-outline-primary btn-sm' %>
+      <%= link_to 'Show comments', post_comments_path(post), class: 'btn btn-outline-primary btn-sm' %>
+      <%= link_to 'Edit post', edit_post_path(post, user_id: params[:user_id]), class: 'btn btn-primary btn-sm' if can_edit?(post) %>
+      <%= link_to 'Delete post', post_path(post, user_id: params[:user_id]), class: 'btn btn-danger btn-sm', data: { "turbo-method": :delete } if can_delete?(post) %>
+    </div>
+  <% end %>
+</div>
+
+<div class="mt-3">
+  <% if action_name == 'new' %>
+    <%= render "form", post: @post %>
+  <% else %>
+    <%= link_to "New post", new_post_path(user_id: params[:user_id]), class: 'btn btn-outline-primary' %>
+  <% end %>
+</div>
